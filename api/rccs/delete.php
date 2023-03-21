@@ -2,33 +2,31 @@
 
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json");
-    header("Access-Control-Allow-Methods: PUT");
+    header("Access-Control-Allow-Methods: DELETE");
     header("Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With");
 
     include_once "../../config/Database.php";
-    include_once "../../models/Location.php";
+    include_once "../../models/Rcc.php";
 
     //instantiate DB and Connect
     $database = new Database();
     $db = $database->connect();
 
     //instantiate loan application object
-    $location = new Location($db);
+    $rcc = new Rcc($db);
 
     //get posted data
     $data = json_decode(file_get_contents("php://input"));
 
-    $location->location_id = $data->id;
-    $location->location_name = $data->location_name;
-    $location->branch_id = $data->branch_id;
-    $location->user_id = $data->user_id;
-
-    if($location->update()){
+    $rcc->rcc_id = $data->id;
+    
+    //Delete Application
+    if($rcc->delete()){
         echo json_encode(
-            array("message"=>"Location Updated")
+            array("message"=>"rcc Deleted")
         );
     }else{
         echo json_encode(
-            array("message"=>"Location Not Updated")
+            array("message"=>"rcc Not Deleted")
         );
     }

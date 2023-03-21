@@ -5,27 +5,28 @@
     header("Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With");
 
     include_once "../../config/Database.php";
-    include_once "../../models/Location.php";
+    include_once "../../models/YearPlan.php";
 
     //instantiate DB and Connect
     $database = new Database();
     $db = $database->connect();
 
     //instantiate loan application object
-    $location = new Location($db);
+    $year_plan = new YearPlan($db);
 
     //get posted data
     $data = json_decode(file_get_contents("php://input"));
-    $location->location_name = $data->location_name;
-    $location->branch_id = $data->branch_id;
-    $location->user_id = $data->user_id;
+    $year_plan->group_id = $data->group_id;
+    $year_plan->startweek = $data->startweek;
+    $year_plan->share_value = $data->share_value;
+    $year_plan->welfare = $data->welfare;
+    $year_plan->status = $data->status;
+    $year_plan->members = $data->members;
 
-    if($location->create()){
-        echo json_encode(
-            array("message"=>"Location Created")
-        );
+    if($year_plan->create()){
+        print_r($year_plan->members);
     }else{
         echo json_encode(
-            array("message"=>"Location Not Created")
+            array("message"=>"Branch Not Created")
         );
     }

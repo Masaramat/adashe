@@ -4,17 +4,17 @@
     header("Content-Type: application/json");
 
     include_once "../../config/Database.php";
-    include_once "../../models/Location.php";
+    include_once "../../models/Rcc.php";
 
     //instantiate DB and Connect
     $database = new Database();
     $db = $database->connect();
 
     //instantiate loan application object
-    $location = new Location($db);
+    $rcc = new Rcc($db);
 
     //loan application query
-    $result = $location->read();
+    $result = $rcc->read();
 
     //row count
     $num = $result->rowCount();
@@ -22,26 +22,27 @@
     //check if we have loan application
     if($num>0){
         //applications array
-        $location_arr = array();
-        $location_arr['status'] = 0;
-        $location_arr['message'] = 'success';
-        $location_arr['data'] = array();
+        $rcc_array = array();
+        $rcc_array['status'] = 0;
+        $rcc_array['message'] = 'success';
+        $rcc_array['data'] = array();
 
         while($row = $result->fetch(PDO::FETCH_ASSOC)){
             extract($row);
-            $location = array(                
-                'location_id' => $location_id,                
-                'location_name' => $location_name,
-                'branch_name' => $branch_name,
-                'user_name' => $name
+            $rcc = array(                
+                'rcc_id' => $sno,                
+                'rcc_name' => $rcc_name,
+                'rcc_location' => $rcc_location,
+                'agent_name' => $agent_name,
+                'agent_email' => $agent_email
             );
 
             //push data into applications array
-            array_push($location_arr['data'], $location);
+            array_push($rcc_array['data'], $rcc);
 
         }
         //Turn array to JSON
-        echo json_encode($location_arr);
+        echo json_encode($rcc_array);
     }else{
         //No application
         echo json_encode(

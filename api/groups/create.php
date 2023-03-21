@@ -1,0 +1,34 @@
+<?php
+
+    header("Access-Control-Allow-Origin: *");
+    header("Content-Type: application/json");
+    header("Access-Control-Allow-Methods: POST");
+    header("Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With");
+
+    include_once "../../config/Database.php";
+    include_once "../../models/Group.php";
+
+    //instantiate DB and Connect
+    $database = new Database();
+    $db = $database->connect();
+
+    //instantiate loan application object
+    $group = new Group($db);
+
+    //get posted data
+    $data = json_decode(file_get_contents("php://input"));
+
+    $group->rcc_id = $data->rcc_id;
+    $group->lcc_name = $data->lcc_name;
+    $group->group_name = $data->group_name;
+    
+    
+    if($group->create()){
+        echo json_encode(
+            array("message"=>"Group Created")
+        );
+    }else{
+        echo json_encode(
+            array("message"=>"Group Not Created")
+        );
+    }

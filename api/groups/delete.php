@@ -6,27 +6,27 @@
     header("Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With");
 
     include_once "../../config/Database.php";
-    include_once "../../models/Location.php";
+    include_once "../../models/Group.php";
 
     //instantiate DB and Connect
     $database = new Database();
     $db = $database->connect();
 
     //instantiate loan application object
-    $location = new Location($db);
+    $group = new Group($db);
 
     //get posted data
     $data = json_decode(file_get_contents("php://input"));
 
-    $location->location_id = $data->id;
+    $group->group_id = $data->id;
     
-    //Delete Application
-    if($location->delete()){
+    //Delete group
+    if($group->delete()){
         echo json_encode(
-            array("message"=>"location Deleted")
+            array("message"=>"Loan Deleted")
         );
     }else{
         echo json_encode(
-            array("message"=>"location Not Deleted")
+            array("message"=>"Loan Not Deleted")
         );
     }

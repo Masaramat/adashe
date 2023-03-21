@@ -1,10 +1,10 @@
 <?php
 class Database{
     //db parameters
-    private $host = "209.205.208.10";
-    private $databse = "lightmfb_loans_db";
-    private $user = "lightmfb_admin";
-    private $password = "Feel@h0me";
+    private $host = "localhost:3306";
+    private $databse = "adashe";
+    private $user = "root";
+    private $password = "SudoP@ssw0rd";
     private $conn;
 
     //DB Connection

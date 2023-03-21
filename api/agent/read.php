@@ -4,17 +4,17 @@
     header("Content-Type: application/json");
 
     include_once "../../config/Database.php";
-    include_once "../../models/Branch.php";
+    include_once "../../models/Agent.php";
 
     //instantiate DB and Connect
     $database = new Database();
     $db = $database->connect();
 
     //instantiate loan application object
-    $branch = new Branch($db);
+    $agent = new Agent($db);
 
     //loan application query
-    $result = $branch->read();
+    $result = $agent->read();
 
     //row count
     $num = $result->rowCount();
@@ -22,24 +22,27 @@
     //check if we have loan application
     if($num>0){
         //applications array
-        $branch_arr = array();
-        $branch_arr['status'] = 0;
-        $branch_arr['message'] = 'success';
-        $branch_arr['data'] = array();
+        $agent_array = array();
+        $agent_array['status'] = 0;
+        $agent_array['message'] = 'success';
+        $agent_array['data'] = array();
 
         while($row = $result->fetch(PDO::FETCH_ASSOC)){
             extract($row);
-            $branch = array(                
-                'branch_id' => $branch_id,                
-                'branch_name' => $branch_name
+            $agent = array(                
+                'user_id' => $sno,                
+                'name' => $agent_name,
+                'email' => $email,
+                'password' => $password,
+                'phone_no' => $phone_no
             );
 
             //push data into applications array
-            array_push($branch_arr['data'], $branch);
+            array_push($agent_array['data'], $agent);
 
         }
         //Turn array to JSON
-        echo json_encode($branch_arr);
+        echo json_encode($agent_array);
     }else{
         //No application
         echo json_encode(
