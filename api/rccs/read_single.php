@@ -27,7 +27,8 @@
             'rcc_name' => $rcc->rcc_name,
             'rcc_location' => $rcc->rcc_location,
             'agent_name' => $rcc->agent_name,
-            'agent_email' => $rcc->agent_email
+            'agent_email' => $rcc->agent_email,
+            'agent_id' => $rcc->agent_id
             
         );
 

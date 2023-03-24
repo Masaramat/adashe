@@ -57,7 +57,7 @@
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //exceute query
-           if($row['sno']>0){
+           if($row){
 
                 
                 extract($row);

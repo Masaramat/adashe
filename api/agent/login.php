@@ -25,7 +25,6 @@
             'message' => 'success',
             'id' => $agent->agent_id,        
             'agent_name' => $agent->agent_name,
-            'password' => $agent->password,
             'email' => $agent->email,
             'contact_address' => $agent->contact_address,
             'phone_no' => $agent->phone_no

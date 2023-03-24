@@ -33,7 +33,8 @@
             
             extract($row); 
                   
-            $yr_plan = array(                
+            $yr_plan = array( 
+                'plan_id'  => $sno,             
                 'group_name' => $group_name,                
                 'rcc_name' => $rcc_name,
                 'lcc_name' => $lcc_name,                

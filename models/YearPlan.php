@@ -9,6 +9,8 @@
         private $member_table = 'members';
         private $member_view = "member_view";
 
+        private $role_table = "group_position";
+
         //application properties
         public $rcc_id;
         public $rcc_name;
@@ -64,6 +66,19 @@
                 WHERE group_id = 
                 ".$year_plan_id."
                  ORDER BY member_name ASC";
+
+            //prepare query
+            $stmt = $this->conn->prepare($query);
+
+            $stmt->execute();
+
+            return $stmt;
+        }
+
+        public function read_roles(){
+            //get query
+            $query = "SELECT * FROM
+                ". $this->role_table;
 
             //prepare query
             $stmt = $this->conn->prepare($query);
@@ -163,7 +178,7 @@
                 $stmt1->bindParam(':contact_address', $member['contact_address']);
                 $stmt1->bindParam(':phone_no', $member['phone_no']);
                 $stmt1->bindParam(':email', $member['email']);
-                $stmt1->bindParam(':role_in_group', $member['role_in_group']);
+                $stmt1->bindParam(':role_in_group', $member['position']);
                 $stmt1->bindParam(':password', $member['password']);
 
                 if($stmt1->execute()){

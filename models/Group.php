@@ -17,6 +17,9 @@
 
         public $agent_email;
 
+        public $parameter;
+        public $value;
+
         public function __construct($db){
             $this->conn = $db;
         
@@ -43,29 +46,20 @@
             $query = "SELECT * FROM 
                 ". $this->view ." 
             
-            WHERE sno = ?
-            LIMIT 0,1";
+            WHERE ".$this->parameter." = ?";
 
             //prepare query
             $stmt = $this->conn->prepare($query);
 
-            //bind params
-            $stmt->bindParam(1, $this->group_id);
+            //bind params           
+            $stmt->bindParam(1, $this->value);
+            
 
             //exceute query
             $stmt->execute();
 
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            extract($row);
-
-            //set properties
-            
-            $this->group_id = $sno;
-            $this->group_name = $group_name;
-            $this->lcc_name = $lcc_name;
-            $this->rcc_name = $rcc_name;
-            $this->agent_name = $agent_name;
-            $this->agent_email = $agent_email;
+            return $stmt;
+           
             
         }
 

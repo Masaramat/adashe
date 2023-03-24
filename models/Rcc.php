@@ -61,14 +61,15 @@
 
             $row = $stmt->fetch(PDO::FETCH_ASSOC);           
 
-            if($row['sno'] > 0){
+            if($row){
                 //set properties
-            
-                $this->rcc_id = $row['sno'];
-                $this->rcc_name = $row['rcc_name'];
-                $this->rcc_location = $row['rcc_location'];
-                $this->agent_name = $row['agent_name'];
-                $this->agent_email = $row['agent_email'];
+                extract($row);
+                $this->rcc_id = $sno;
+                $this->rcc_name = $rcc_name;
+                $this->rcc_location = $rcc_location;
+                $this->agent_name = $agent_name;
+                $this->agent_email = $agent_email;
+                $this->agent_id = $agent_id;
                 return true;
 
             }else{
@@ -102,8 +103,11 @@
             $stmt->bindParam(':agent_id', $this->agent_id);
             
             if($stmt->execute()){
+                $this->rcc_id = $this->conn->lastInsertId();
                 return true;
             }
+
+            
 
             printf("Error: %s.\n", $stmt->error);
             return false;

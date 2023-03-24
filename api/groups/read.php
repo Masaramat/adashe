@@ -35,7 +35,8 @@
                 'lcc_name' => $lcc_name,
                 'rcc_name' => $rcc_name,
                 'agent_name' => $agent_name,
-                'agent_email' => $agent_email                 
+                'agent_email' => $agent_email,
+                'rcc_id' => $rcc_id                
             );
 
             //push data into groups array

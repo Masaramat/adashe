@@ -1,6 +1,7 @@
 <?php
 
     header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: POST");
     header("Content-Type: application/json");
 
     include_once "../../config/Database.php";
@@ -13,20 +14,44 @@
     //instantiate loan application object
     $group = new Group($db);
 
-    $group->group_id = isset($_GET['id']) ? $_GET['id'] : die();
+    $data = json_decode(file_get_contents("php://input"));
 
-    $group->read_single();
+    $group->parameter = isset($_GET['column']) ? $_GET['column'] : die();
+    $group->value = isset($_GET['value']) ? $_GET['value'] : die();
 
-    //create array
-    $group_array = array(
-        'status' => 0,
-        'message' => 'success',
-        'group_id' => $group->group_id,
-        'group_name' => $group->group_name,
-        'lcc_name' => $group->lcc_name,
-        'rcc_name' => $group->rcc_name,
-        'agent_name' => $group->agent_name,
-        'agent_email' => $group->agent_email
-    );
+    $result = $group->read_single();
 
-    print_r(json_encode($group_array));
+     //row count
+     $num = $result->rowCount();
+
+     //check if we have loan group
+     if($num>0){
+         //groups array
+         $groups_arr = array();
+         $groups_arr['status'] = 0;
+         $groups_arr['message'] = 'success';
+         $groups_arr['data'] = array();
+ 
+         while($row = $result->fetch(PDO::FETCH_ASSOC)){
+             extract($row);
+             $group = array(
+                 'group_id' => $sno,
+                 'group_name' => $group_name,
+                 'lcc_name' => $lcc_name,
+                 'rcc_name' => $rcc_name,
+                 'agent_name' => $agent_name,
+                 'agent_email' => $agent_email                 
+             );
+ 
+             //push data into groups array
+             array_push($groups_arr['data'], $group);
+ 
+         }
+         //Turn array to JSON
+         print_r(json_encode($groups_arr));
+     }else{
+         //No group
+         print_r(json_encode(array("status"=>1, "message"=>"No groups found.")));
+     }
+
+    

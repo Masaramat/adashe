@@ -22,10 +22,10 @@
 
     if($rcc->create()){
         echo json_encode(
-            array("message"=>"Rcc Created")
+            array("status"=> 0, "message"=>"Rcc Created", "rcc_id" => $rcc->rcc_id)
         );
     }else{
         echo json_encode(
-            array("message"=>"rcc Not Created")
+            array("status"=> 1, "message"=>"rcc Not Created")
         );
     }
