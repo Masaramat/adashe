@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title><?php htmlout($pagetitle); ?></title>
+<script src="../jquery/dist/jquery.min.js"></script>
 <meta http-equiv="content-type"
 content="text/html; charset=utf-8"/>
 <style type="text/css">
@@ -102,11 +103,7 @@ width: 100%;
 			<label for="role">Member Role:</label>
 			<select name="role" id="role" >
 				<option value="">Select One</option>
-				<option value=1> Chairman </option>
-				<option value=2> Book Keeper </option> 
-				<option value=3> Box Keeper </option> 
-				<option value=4> Member </option> 
-				<option value=5> Admin</option>  				
+								
 			</select>
 		</div>
 		
@@ -164,6 +161,35 @@ width: 100%;
 
 
 	<script>
+
+		$(document).ready(function(){
+			url = "http://localhost/adashe_api/api/year_plan/get_role.php";
+			$.ajax({
+				method: "GET",
+				url: url,
+				
+			}).done(function(data) {
+				alert("data")					
+				let i = 0;				
+				if(status == 0){
+					data = JSON.stringify(data['data'])
+					data = JSON.parse(data)
+					for(i=0; i<data.length; i++){
+						$('<option value="' + data[i]['role_id'] + '">' + data[i]['position'] + '</option>').appendTo('#role');
+						console.log(data[i])
+					}
+				}else if(status == 1){
+					// alert(status)
+					$("#role").html("");
+					$('<option value="">' + message + '</option>').appendTo('#role');
+				}
+			
+				
+			}).fail(function(){
+				alert("failure")
+			})	
+			
+		})
 				
 		function FetchGroups(id) {
 			$("#group").html("");
@@ -195,9 +221,11 @@ width: 100%;
 				alert("failure")
 			})
 		}
+
+		
 	</script>
 		
-	<script src="../jquery/dist/jquery.min.js"></script>
+	
 
 
 </body>
