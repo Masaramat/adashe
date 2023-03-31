@@ -35,13 +35,9 @@ function userIsLoggedIn(){
 		}
 	}
 
-	if (isset($_POST['action']) and $_POST['action'] == 'logout') {
+	if (isset($_POST['action']) and $_POST['action'] == 'logout') {	
 
-		unset($_SESSION['loggedIn']);
-		unset($_SESSION['agent']);
-		
-
-		
+		session_destroy();
 		header('Location: ' . $_POST['goto']);
 
 		exit();

@@ -76,13 +76,6 @@ if (isset($_POST['action']) and $_POST['action'] == 'Edit'){
 }
 
 if (isset($_GET['editform'])){
-	
-	if ($_POST['rcc']== ''){
-		$error = 'You must choose an RCC for this Group.
-		Click &lsquo;back&rsquo; and try again.';
-		include '../error.html.php';
-		exit();
-	}
 
 	$data = json_encode(array("group_id"=>$_POST['group_id'], "lcc_name"=> $_POST['lccname'], "rcc_id"=>$_POST['rcc'], "group_name"=>$_POST['groupname']));
 	$response = callAPI('POST', 'localhost/adashe_api/api/groups/update.php', $data);

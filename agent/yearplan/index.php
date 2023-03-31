@@ -35,13 +35,14 @@ if (isset($_GET['add'])){
 	$membername = '';
 	$email = '';
 	$phone = '';
+	$address = '';
 		
 	$sno = '';
 
 
 	 
 	
-    if (isset($_POST['action']) and $_POST['action'] == 'Addss'){
+    if (isset($_POST['action']) and $_POST['action'] == 'Add Member'){
         
         $membername = $_POST['membername'];
         $role = $_POST['role'];
